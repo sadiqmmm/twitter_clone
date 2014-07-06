@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-  get 'home' =>  'staticpages#home'
-  get 'help' =>'staticpages#help'
-  get 'contact' => 'staticpages#contact'
-  get 'about' =>'staticpages#about'
+  match '/home', to: 'staticpages#home', via: :get
+  match '/help', to: 'staticpages#help', via: :get
+  match '/contact', to:'staticpages#contact', via: :get
+  match '/about', to: 'staticpages#about', via: :get
 
   root to: "staticpages#index"
 
