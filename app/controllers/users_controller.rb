@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
 
   def show  	 
   end
@@ -40,7 +42,19 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def signed_in_user
+      unless signed_in?        
+        stored_location
+        redirect_to signin_url, notice: "Please sign in" 
+      end
+    end
+
     def user_params
     	params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def correct_user
+        @user = User.find(params[:id])
+        redirect_to root_url, notice: "Unauthorize to edit user details" unless current_user?(@user)
     end
 end
